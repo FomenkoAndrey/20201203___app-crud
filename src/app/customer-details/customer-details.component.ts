@@ -15,7 +15,8 @@ export class CustomerDetailsComponent implements OnInit {
   mobile: AbstractControl;
   location: AbstractControl;
 
-  constructor(public svc: CustomerService) { }
+  constructor(public svc: CustomerService) {
+  }
 
   ngOnInit(): void {
     this.key = this.svc.form.controls.key;
@@ -31,8 +32,11 @@ export class CustomerDetailsComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if ()
+    if (this.svc.form.valid) {
+      if (this.svc.form.controls.key.value === null) {
+        this.svc.insertCustomer(this.svc.form.value);
+      }
+    }
 
-    this.svc.insertCustomer(this.svc.form.value);
   }
 }
