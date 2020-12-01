@@ -11,10 +11,8 @@ export class CustomersListComponent implements OnInit {
   constructor(public svc: CustomerService) { }
 
   ngOnInit(): void {
-  }
-
-  getList(): void {
     this.svc.getCustomersList();
   }
 
 }
+

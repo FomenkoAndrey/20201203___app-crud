@@ -1,3 +1,43 @@
-<p>customers-list works!</p>
+<h2>Список покупателей</h2>
 
-<button (click)="getList()" class="btn btn-info">Get Customers List</button>
+<table class="table">
+
+  <thead>
+  <tr>
+    <ng-container *ngTemplateOutlet="tableHeadBlock"></ng-container>
+  </tr>
+  </thead>
+
+  <tbody>
+  <tr *ngFor="let customer of svc.customers; let i = index">
+    <th class="align-middle" scope="row">{{i + 1}}</th>
+
+    <ng-container *ngTemplateOutlet="elseBlock; context: {$implicit: customer}"></ng-container>
+
+    <td>
+      <button class="btn btn-outline-info btn-sm mr-2"><i class="fas fa-edit"></i></button>
+      <button class="btn btn-outline-info btn-sm mr-2"><i class="fas fa-undo"></i></button>
+      <button class="btn btn-outline-info btn-sm mr-2"><i class="fas fa-save"></i></button>
+      <button class="btn btn-outline-info btn-sm mr-2"><i class="fas fa-trash"></i></button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+
+<ng-template #tableHeadBlock>
+  <th scope="col">#</th>
+  <th scope="col">Имя</th>
+  <th scope="col">Имейл</th>
+  <th scope="col">Телефон</th>
+  <th scope="col">Город</th>
+  <th></th>
+</ng-template>
+
+
+<ng-template #elseBlock let-customer>
+  <td class="align-middle">{{customer.name}}</td>
+  <td class="align-middle">{{customer.email}}</td>
+  <td class="align-middle">{{customer.mobile}}</td>
+  <td class="align-middle">{{customer.location}}</td>
+</ng-template>

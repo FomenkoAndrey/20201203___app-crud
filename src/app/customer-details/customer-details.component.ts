@@ -37,6 +37,5 @@ export class CustomerDetailsComponent implements OnInit {
         this.svc.insertCustomer(this.svc.form.value);
       }
     }
-
   }
 }

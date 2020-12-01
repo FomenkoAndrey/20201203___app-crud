@@ -25,18 +25,19 @@ export class CustomerService {
     location: ['', Validators.required],
   });
 
+  // create = post
   insertCustomer(customer: Customer): void {
-
-    console.log(customer);
-
-    // this.http.post<Customer>(`${url}.json`, customer, httpOptions)
-    //   .subscribe(
-    //     res => {
-    //       console.log(res);
-    //     },
-    //     err => console.log(err));
+    this.http.post<Customer>(`${url}.json`, customer, httpOptions)
+      .subscribe(
+        res => {
+          customer.key = res.name;
+          this.customers.push(customer);
+          console.log(this.customers);
+        },
+        err => console.log(err));
   }
 
+  // reade = get
   getCustomersList(): void {
     this.http.get<Customer[]>(`${url}.json`, httpOptions)
       .subscribe(
