@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CustomerService } from '../shared/customer.service';
+import { Customer } from '../shared/customer';
 
 @Component({
   selector: 'app-customers-list',
@@ -8,11 +9,52 @@ import { CustomerService } from '../shared/customer.service';
 })
 export class CustomersListComponent implements OnInit {
 
+  private editCustomer: Customer = {
+    key: null,
+    name: null,
+    email: null,
+    mobile: null,
+    location: null
+  };
+
+  isEditPos: null | number;
+
   constructor(public svc: CustomerService) { }
 
   ngOnInit(): void {
     this.svc.getCustomersList();
   }
 
+  editMode(i: number): void {
+    this.svc.resetTemp(this.editCustomer);
+    this.isEditPos = i;
+  }
+
+  cancelEdit(): void {
+    this.isEditPos = null;
+    this.svc.resetTemp(this.editCustomer);
+  }
+
+  setValue(key, value): void {
+    if (this.editCustomer[key] !== undefined) {
+      this.editCustomer[key] = value;
+    }
+  }
+
+  save(customer: Customer): void {
+    Object.keys(this.editCustomer).forEach(key => {
+      if (this.editCustomer[key]) {
+        customer[key] = this.editCustomer[key];
+      }
+    });
+
+    this.svc.updateCustomer(customer.key, this.svc.trimKey(customer));
+    this.isEditPos = null;
+    this.svc.resetTemp(this.editCustomer);
+  }
+
+  deleteCustomer(customer: Customer): void {
+    this.svc.deleteCustomer(customer);
+  }
 }
 

@@ -15,7 +15,8 @@ export class CustomerService {
 
   customers: Customer[] = [];
 
-  constructor(public http: HttpClient, private fb: FormBuilder) { }
+  constructor(public http: HttpClient, private fb: FormBuilder) {
+  }
 
   form = this.fb.group({
     key: [null],
@@ -24,6 +25,25 @@ export class CustomerService {
     mobile: ['', [Validators.required, Validators.minLength(8)]],
     location: ['', Validators.required],
   });
+
+  resetTemp(customer: Customer): void {
+    customer = {
+      key: null,
+      name: null,
+      email: null,
+      mobile: null,
+      location: null
+    };
+  }
+
+  trimKey(customer: Customer): Customer {
+    return Object.assign({}, {
+      name: customer.name,
+      email: customer.email,
+      mobile: customer.mobile,
+      location: customer.location
+    });
+  }
 
   // create = post
   insertCustomer(customer: Customer): void {
@@ -37,7 +57,7 @@ export class CustomerService {
         err => console.log(err));
   }
 
-  // reade = get
+  // read = get
   getCustomersList(): void {
     this.http.get<Customer[]>(`${url}.json`, httpOptions)
       .subscribe(
@@ -48,6 +68,24 @@ export class CustomerService {
             this.customers.push(obj);
           });
         },
+        err => console.log(err)
+      );
+  }
+
+  // update = put
+  updateCustomer(key: string, customer: Customer): void {
+    this.http.put<Customer>(`${url}/${key}.json`, customer, httpOptions)
+      .subscribe(
+        res => console.log(res),
+        err => console.log(err)
+      );
+  }
+
+  // delete
+  deleteCustomer(customer: Customer): void {
+    this.http.delete<void>(`${url}/${customer.key}.json`, httpOptions)
+      .subscribe(
+        () => this.customers.splice(this.customers.indexOf(customer), 1),
         err => console.log(err)
       );
   }

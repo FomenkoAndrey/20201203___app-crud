@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CustomerService } from '../shared/customer.service';
 import { AbstractControl } from '@angular/forms';
+import { Customer } from '../shared/customer';
 
 @Component({
   selector: 'app-customer-details',
@@ -38,4 +39,5 @@ export class CustomerDetailsComponent implements OnInit {
       }
     }
   }
+
 }
